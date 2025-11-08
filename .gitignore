@@ -129,3 +129,8 @@ Temporary Items
 # Datasets
 data/mnist*
 
+
+# Ignore model checkpoints
+*.pt
+models/
+
