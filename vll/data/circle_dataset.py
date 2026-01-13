@@ -2,8 +2,17 @@ import random
 import numpy as np
 import math
 
-from skimage.draw import line, line_aa, circle, set_color, circle_perimeter_aa
-from skimage.io import imsave
+from skimage.draw import line, line_aa, set_color, circle_perimeter_aa
+
+try:
+    from skimage.draw import circle
+except ImportError:
+    from skimage.draw import disk as _disk
+
+    def circle(r, c, radius):
+        rr, cc = _disk((r, c), radius)
+        return rr, cc
+
 from skimage.util import random_noise
 
 maxSlope = 10 # restrict the maximum slope of generated lines for stability

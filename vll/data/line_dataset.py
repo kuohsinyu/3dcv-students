@@ -2,7 +2,21 @@ import random
 import numpy as np
 import math
 
-from skimage.draw import line, line_aa, circle, set_color, circle_perimeter_aa
+from skimage.draw import line, line_aa, set_color, circle_perimeter_aa
+
+# 相容舊版本的 circle：新版 scikit-image 用 disk 取代 circle
+try:
+    # 如果你的環境剛好有舊版 circle，就直接用
+    from skimage.draw import circle
+except ImportError:
+    # 新版沒有 circle，就用 disk 來當作 circle
+    from skimage.draw import disk as _disk
+
+    def circle(r, c, radius):
+        # 舊版 circle 簽名是 circle(r, c, radius) -> rr, cc
+        rr, cc = _disk((r, c), radius)
+        return rr, cc
+
 from skimage.io import imsave
 from skimage.util import random_noise
 
